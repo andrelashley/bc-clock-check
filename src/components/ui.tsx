@@ -1,3 +1,4 @@
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { PropsWithChildren } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -17,8 +18,8 @@ export const colors = {
   white: '#FFFFFF',
 };
 
-export function Screen({ children }: PropsWithChildren) {
-  return <View style={styles.screen}>{children}</View>;
+export function Screen({ children, top = false }: PropsWithChildren<{ top?: boolean }>) {
+  return <SafeAreaView edges={top ? ['top', 'left', 'right', 'bottom'] : ['left', 'right', 'bottom']} style={styles.screen}>{children}</SafeAreaView>;
 }
 
 export function Card({ children, style }: PropsWithChildren<{ style?: object }>) {

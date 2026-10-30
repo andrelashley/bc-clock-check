@@ -5,18 +5,17 @@ export default function AboutScreen() {
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>About</Text>
         <Text style={styles.intro}>BC Clock Check answers one question: do you need to change your clocks?</Text>
 
         <Card style={styles.card}>
           <Text style={styles.eyebrow}>Privacy</Text>
           <Text style={styles.cardTitle}>This app does not collect personal information or use location data.</Text>
-          <Text style={styles.body}>No accounts. No tracking. Your region choice stays on your device.</Text>
+          <Text style={styles.body}>No accounts. No tracking. Your region choice is kept in memory while the app is open.</Text>
         </Card>
 
         <Card style={styles.card}>
           <Text style={styles.eyebrow}>Source note</Text>
-          <Text style={styles.body}>Source: Government of B.C. time change update, March 2026. This app is not affiliated with the Government of British Columbia.</Text>
+          <Text style={styles.body}>Sources: Government of B.C., March 2026; RDEK time change decision, August 14, 2026; Town of Golden update, September 22, 2026. Rules checked October 29, 2026. This app is not affiliated with the Government of British Columbia.</Text>
         </Card>
 
         <Text style={styles.version}>Version 1.0</Text>
@@ -29,13 +28,6 @@ const styles = StyleSheet.create({
   content: {
     padding: 20,
     paddingBottom: 36,
-  },
-  title: {
-    color: colors.text,
-    fontSize: 38,
-    fontWeight: '900',
-    letterSpacing: -0.7,
-    marginBottom: 8,
   },
   intro: {
     color: colors.text,

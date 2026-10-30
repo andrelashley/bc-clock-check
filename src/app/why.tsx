@@ -1,4 +1,5 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useRegion } from '@/data/RegionContext';
 import { Card, Screen, colors } from '@/components/ui';
 
 const timeline = [
@@ -17,10 +18,13 @@ const timeline = [
 ];
 
 export default function WhyScreen() {
+  const { selectedRegion } = useRegion();
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>What changed?</Text>
+        <Text style={styles.sectionTitle}>{selectedRegion.name}</Text>
+        <Text style={styles.body}>{selectedRegion.summary}</Text>
+        <Text style={styles.sectionTitle}>Across the province</Text>
 
         <Card style={styles.timelineCard}>
           {timeline.map((item, index) => (
@@ -33,12 +37,12 @@ export default function WhyScreen() {
 
         <Text style={styles.sectionTitle}>Why do differences change?</Text>
         <Text style={styles.body}>
-          Many nearby places still change their clocks. When Washington state falls back on Nov. 1, Seattle becomes 1 hour behind most of B.C. until it springs forward again in March.
+          Comparisons on Home apply to your selected region on Nov. 1, 2026. Places such as Seattle and London still change clocks seasonally, so the difference can change during the year. East Kootenay and Golden remain one hour ahead of most of B.C.
         </Text>
 
         <Text style={styles.sectionTitle}>What should I check?</Text>
         <Text style={styles.body}>
-          Phones and computers should stay correct on their own. If your phone changes on Nov. 1, make sure its software is up to date. Manual clocks, like ovens, microwaves, cars and wall clocks, can be left alone for most of B.C.
+          For {selectedRegion.name}, leave manual clocks unchanged on Nov. 1, 2026. Keep phones and computers updated and check their automatic time-zone setting against {selectedRegion.timeLabel} ({selectedRegion.zoneLabel}). Older software may still apply the previous seasonal rules.
         </Text>
       </ScrollView>
     </Screen>
@@ -49,14 +53,6 @@ const styles = StyleSheet.create({
   content: {
     padding: 20,
     paddingBottom: 36,
-  },
-  title: {
-    color: colors.text,
-    fontSize: 34,
-    fontWeight: '900',
-    letterSpacing: -0.6,
-    lineHeight: 38,
-    marginBottom: 16,
   },
   timelineCard: {
     marginBottom: 26,

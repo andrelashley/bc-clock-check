@@ -1,18 +1,15 @@
 import { Card, RowLink, Screen, colors } from '@/components/ui';
-import { RegionId, comparisons, regions } from '@/data/clockData';
+import { getComparisons, regions } from '@/data/clockData';
 import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useRegion } from '@/data/RegionContext';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function HomeScreen() {
-  const [selectedRegionId, setSelectedRegionId] = useState<RegionId>('most-bc');
-  const selectedRegion = useMemo(
-    () => regions.find((region) => region.id === selectedRegionId) ?? regions[0],
-    [selectedRegionId]
-  );
+  const { selectedRegion, setSelectedRegionId } = useRegion();
+  const comparisons = getComparisons(selectedRegion);
 
   return (
-    <Screen>
+    <Screen top>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.headerRow}>
           <Text style={styles.appName}>BC Clock Check</Text>
@@ -22,12 +19,12 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.heroCard}>
-          <Text style={styles.heroQuestion}>Do I need to change my clocks?</Text>
-          <Text style={styles.heroNo}>No.</Text>
-          <Text style={styles.heroTitle}>Most of B.C. does not change clocks.</Text>
-          <Text style={styles.heroBody}>Your clocks stay the same on Nov. 1, 2026.</Text>
+          <Text style={styles.heroQuestion}>For {selectedRegion.name}: do I need to change my clocks?</Text>
+          <Text style={styles.heroNo}>{selectedRegion.answer}</Text>
+          <Text style={styles.heroTitle}>{selectedRegion.headline}</Text>
+          <Text style={styles.heroBody}>{selectedRegion.summary}</Text>
           <View style={styles.heroPill}>
-            <Text style={styles.heroPillText}>Pacific Time · UTC-7 year-round</Text>
+            <Text style={styles.heroPillText}>{selectedRegion.timeLabel} / {selectedRegion.zoneLabel} year-round</Text>
           </View>
           <Pressable onPress={() => router.push('/regions' as never)} hitSlop={8}>
             <Text style={styles.heroRegionLink}>Some B.C. regions are different ›</Text>
@@ -42,7 +39,7 @@ export default function HomeScreen() {
           <View style={styles.dateTextWrap}>
             <Text style={styles.dateEyebrow}>Next date to know</Text>
             <Text style={styles.dateTitle}>Sunday, Nov. 1, 2026</Text>
-            <Text style={styles.dateBody}>Many places fall back an hour. Most of B.C. stays put.</Text>
+            <Text style={styles.dateBody}>{selectedRegion.name}: {selectedRegion.status}.</Text>
           </View>
         </Card>
 
@@ -57,6 +54,8 @@ export default function HomeScreen() {
             return (
               <Pressable
                 key={region.id}
+                accessibilityRole="radio"
+                accessibilityState={{ checked: selected }}
                 onPress={() => setSelectedRegionId(region.id)}
                 style={({ pressed }) => [
                   styles.regionOption,
@@ -78,8 +77,8 @@ export default function HomeScreen() {
         </Card>
 
         <View style={styles.comparisonHeader}>
-          <Text style={styles.sectionTitle}>Compared to B.C.</Text>
-          <Text style={styles.comparisonDate}>From Nov. 1, 2026</Text>
+          <Text style={styles.sectionTitle}>Compared to your region</Text>
+          <Text style={styles.comparisonDate}>On Nov. 1, 2026</Text>
         </View>
 
         <View style={styles.comparisonList}>
@@ -118,7 +117,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   content: {
     padding: 20,
-    paddingTop: 56,
+    paddingTop: 20,
     paddingBottom: 36,
   },
   headerRow: {
@@ -306,6 +305,8 @@ const styles = StyleSheet.create({
   comparisonHeader: {
     alignItems: 'flex-end',
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
     justifyContent: 'space-between',
     marginBottom: 10,
   },
