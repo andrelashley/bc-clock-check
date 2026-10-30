@@ -41,3 +41,6 @@ example
 # generated native folders
 /ios
 /android
+
+# Internal QA reports
+bc-clock-check-testing-report.pdf
