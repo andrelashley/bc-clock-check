@@ -39,3 +39,63 @@ Docs: https://docs.expo.dev/eas/index.md
 - If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
 - Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
 - Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+
+## BC Clock Check — Project-Specific Instructions
+
+BC Clock Check is a small Android-first Expo/React Native utility
+that explains British Columbia's 2026 time-zone changes.
+
+### Scope
+
+The immediate task is to resolve six findings from the closed-testing
+QA report.
+
+Do not redesign the application, introduce unrelated features,
+or modify deployment/signing configuration.
+
+### Required Fixes
+
+1. Region selection must update the Home screen's answer,
+   explanatory text, and applicable UTC offset.
+
+2. The Home screen must clearly identify which region
+   the displayed answer applies to.
+
+3. Fix content overlapping the Android system navigation bar.
+   Use safe-area-aware layouts and appropriate bottom padding.
+
+4. Ensure Android status bar icons are readable
+   against the application's light background.
+
+5. Make the "What changed?" screen reflect the selected region.
+   Do not give universal advice that contradicts regional rules.
+
+6. Remove duplicate page headings when the navigation header
+   already displays the screen title.
+
+### Time-Zone Accuracy
+
+- Do not assume every B.C. region follows identical rules.
+- Verify regional time-zone rules against official sources.
+- Do not hardcode time differences that change seasonally.
+- Use IANA time-zone identifiers where appropriate.
+- Do not introduce new time-zone dependencies unnecessarily.
+
+### Validation
+
+Before completing the task:
+
+- Run `npx expo lint`.
+- Run `npx tsc --noEmit`.
+- Run `npx expo-doctor`.
+- Confirm the main answer changes appropriately when selecting regions.
+- Check safe-area behavior on Android.
+- Report any testing that could not be performed.
+
+### Restrictions
+
+- Do not change `android.package`.
+- Do not change the EAS project ID.
+- Do not modify signing credentials.
+- Do not publish or deploy.
+- Do not add analytics, advertising, or unnecessary permissions.
