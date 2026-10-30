@@ -1,15 +1,12 @@
 {
   "expo": {
-    "name": "BcClockCheck",
+    "name": "BC Clock Check",
     "slug": "BcClockCheck",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "bcclockcheck",
     "userInterfaceStyle": "automatic",
-    "ios": {
-      "icon": "./assets/expo.icon"
-    },
     "android": {
       "package": "com.lashleylabs.bcclockcheck",
       "versionCode": 1,
